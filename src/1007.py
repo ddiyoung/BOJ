@@ -1,39 +1,49 @@
 from itertools import combinations
-
-def vector(tuple):
-    v1 = tuple[0]
-    v2 = tuple[1]
-
-    if v1[0] < v2[0]:
-        v1 = tuple[1]
-        v2 = tuple[0]
-    
-    vector = [v1[0] - v2[0], v1[1] - v2[1]]
-    return vector
-
-def vectorlist(comb):
-    vector_list = []
-    for c in comb:
-        vector_list.append(vector(c))
-    
-    return vector_list
+import math
 
 def main():
+    results = []
+
     T = int(input())
 
     for _ in range(T):
         N = int(input())
 
+        x_total = 0
+        y_total = 0
+
         vertex = []
         for _ in range(N):
             x, y = map(int, input().split())
+            x_total += x
+            y_total += y
             vertex.append([x,y])
         
-        comb = list(combinations(vertex, 2))
+        comb = list(combinations(vertex, int(N/2)))
 
-        vec = vectorlist(comb)
+        min_len = math.inf
 
-        print(vec)
+        for vector_sum in comb[:int(len(comb)/2)]:
+            vector_sum = list(vector_sum)
+
+            x1_total = 0
+            y1_total = 0
+            for x1, y1 in vector_sum:
+                x1_total += x1
+                y1_total += y1
+            
+            x2_total = x_total - x1_total
+            y2_total = y_total - y1_total
+
+            vector_len = math.sqrt((x1_total - x2_total) ** 2 + (y1_total - y2_total) ** 2)
+
+            min_len = min(min_len, vector_len)
+        
+        results.append(min_len)
+
+    for result in results:
+        print(result)
+        
 
 if __name__ == "__main__":
     main()
