@@ -1,17 +1,17 @@
 from collections import deque
 
 def bfs(dic):
-    visited = []
+    visited = set()
     que = deque([1])
 
     while que:
         n = que.popleft()
 
         if n not in visited:
-            visited.append(n)
-            que += dic[n] - set(visited)
+            visited.add(n)
+            que += dic[n] - visited
         
-    visited.remove(1)
+    visited.discard(1)
 
     return len(visited)
 
@@ -27,7 +27,7 @@ def main():
         a, b = map(int, input().split())
 
         dic[a].add(b)
-    
+        dic[b].add(a)
     print(bfs(dic))
 
 
