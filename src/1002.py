@@ -1,21 +1,25 @@
-N = int(input())
-
-for i in range(N):
-    x1, y1, r1, x2, y2, r2 = map(int, input().split())
-    d = ((x1-x2)**2 + (y1-y2)**2)**0.5
-    if x1 == x2 and y1 == y2 and r1 == r2:
-        print(-1)
-    elif d <= r1 or d <= r2:
-        if abs(r2-r1) > d:
-            print(0)
-        elif abs(r2-r1) == d:
-            print(1)
-        else:
+def main():
+    N = int(input())
+    
+    for _ in range(N):
+        x1, y1, r1, x2, y2, r2 = map(int, input().split())
+        
+        dis = r1 + r2
+        dis_minus = abs(r1 - r2)
+        
+        x_dis = (x1-x2)**2
+        y_dis = (y1-y2)**2
+        
+        O1toO2 = (x_dis + y_dis) ** 0.5
+        
+        if O1toO2 == 0 and r1 == r2:
+            print(-1)
+        elif dis_minus < O1toO2 < dis:
             print(2)
-    else:
-        if r2 + r1 > d:
-            print(2)
-        elif r2 + r1 == d:
+        elif dis == O1toO2 or dis_minus == O1toO2:
             print(1)
-        else:
+        elif O1toO2 > dis or O1toO2 < dis_minus:
             print(0)
+        
+if __name__ == "__main__":
+    main()
